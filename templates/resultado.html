@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personagem Criado</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Personagem Criado com Sucesso!</h1>
+        <div class="character-sheet">
+            <h2>Ficha do Personagem</h2>
+            
+            <div class="info-group">
+                <h3>Informações Básicas</h3>
+                <p><strong>Nome:</strong> {{ nome }}</p>
+                <p><strong>Idade:</strong> {{ idade }}</p>
+                <p><strong>Raça:</strong> {{ raca.tipo }}</p>
+                <p><strong>Classe:</strong> {{ classe.tipo }}</p>
+            </div>
+
+            <div class="info-group">
+                <h3>Atributos</h3>
+                <ul>
+                    {% for atributo in atributos %}
+                    <li>
+                        <strong>{{ atributo.nome|capitalize }}:</strong> {{ atributo.valor }} 
+                        <span class="description">({{ atributo.descricao }})</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="info-group">
+                <h3>Características de Raça</h3>
+                <ul>
+                    <li><strong>Movimento:</strong> {{ raca.movimento }}</li>
+                    <li><strong>Infravisão:</strong> {{ raca.infravisao }}</li>
+                    <li><strong>Alinhamento:</strong> {{ raca.alinhamento }}</li>
+                    <li><strong>Peso:</strong> {{ raca.peso }} kg</li>
+                    <li><strong>Classificação por idade:</strong> {{ raca.idades }}</li>
+                </ul>
+            </div>
+
+            <div class="info-group">
+                <h3>Habilidades de Classe</h3>
+                <ul>
+                    {% for habilidade in classe.habilidades %}
+                    <li>{{ habilidade }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="button-group">
+            <a href="{{ url_for('index') }}" class="button">Criar outro personagem</a>
+        </div>
+    </div>
+</body>
+</html>

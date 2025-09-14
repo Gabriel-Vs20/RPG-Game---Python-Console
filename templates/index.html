@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criação de Personagem</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Criação de Personagem</h1>
+        
+        <form action="{{ url_for('index') }}" method="post">
+            
+            <div class="form-group">
+                <label for="nome">Nome do Personagem:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="idade">Idade:</label>
+                <input type="number" id="idade" name="idade" min="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="raca">Raça:</label>
+                <select id="raca" name="raca" required>
+                    {% for r in racas %}
+                    <option value="{{ r }}">{{ r }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="classe">Classe:</label>
+                <select id="classe" name="classe" required>
+                    {% for c in classes %}
+                    <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Estilo de Atributos:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="estilo" value="classico" checked> Clássico (3d6 na ordem)</label>
+                    <label><input type="radio" name="estilo" value="aventureiro"> Aventureiro (3d6, livre)</label>
+                    <label><input type="radio" name="estilo" value="heroico"> Heróico (4d6, descarta menor, livre)</label>
+                </div>
+            </div>
+            
+            <button type="submit">Próximo Passo</button>
+        </form>
+
+        {% if valores %}
+        <hr>
+        <h2>Distribuição de Atributos</h2>
+        <form action="{{ url_for('distribuir') }}" method="post">
+            <p>Seus valores rolados: <strong>{{ valores|join(', ') }}</strong></p>
+            {% for atributo in atributos %}
+            <div class="form-group">
+                <label for="{{ atributo }}">{{ atributo|capitalize }}:</label>
+                <select name="{{ atributo }}" id="{{ atributo }}" required>
+                    <option value="">Selecione um valor</option>
+                    {% for valor in valores %}
+                    <option value="{{ valor }}">{{ valor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endfor %}
+            <button type="submit">Distribuir Atributos</button>
+        </form>
+        {% endif %}
+    </div>
+</body>
+</html>
