@@ -1,7 +1,7 @@
 import os
 import sys
 
-# Adiciona o diretório raiz do projeto ao sys.path
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from flask import Flask, render_template, request, redirect, url_for, session
@@ -20,7 +20,7 @@ ATRIBUTOS = ["forca", "destreza", "constituicao", "inteligencia", "sabedoria", "
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # Processa os dados da primeira parte do formulário
+        
         session['nome'] = request.form['nome']
         session['idade'] = int(request.form['idade'])
         session['raca'] = request.form['raca']
@@ -37,16 +37,15 @@ def index():
         elif session['estilo'] in ['aventureiro', 'heroico']:
             if session['estilo'] == 'aventureiro':
                 valores = a.gerar_aventureiro()
-            else: # heroico
+            else: 
                 valores = a.gerar_heroico()
             
-            # Salva os valores na sessão para a próxima etapa
+           
             session['valores_gerados'] = valores
-            
-            # Redireciona para si mesma para que a página recarregue e mostre o formulário de distribuição
+           
             return redirect(url_for('index'))
     
-    # Se a requisição for GET, checa se há valores para distribuir na sessão
+    
     valores = session.pop('valores_gerados', None)
     
     return render_template('index.html',
@@ -57,11 +56,11 @@ def index():
 
 @app.route('/distribuir', methods=['POST'])
 def distribuir():
-    # Recupera os dados da sessão
+    
     valores_originais = session.get('valores_gerados', [])
     distribuicao = {}
     
-    # Mapeia os valores do formulário para o dicionário de distribuição
+    
     for atributo in ATRIBUTOS:
         valor = request.form.get(atributo)
         if valor and valor.isdigit():
